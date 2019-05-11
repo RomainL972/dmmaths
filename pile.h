@@ -2,6 +2,7 @@
 #define LEBBADI_PILE_H
 
 #include <stack>
+#include <utility>
 
 class Disque;
 
@@ -13,10 +14,10 @@ class Pile {
     Disque* topDisque() const;
     bool even() const;
     int index() const;
+    bool empty() const;
 
   private:
-    std::stack<Disque*> m_disques;
-    bool m_even;
+    std::stack<std::pair<Disque*, bool>> m_disques;
     int m_index;
 };
 

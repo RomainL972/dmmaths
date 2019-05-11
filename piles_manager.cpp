@@ -47,3 +47,7 @@ void PilesManager::describe() const {
    << ((m_piles[1]->topDisque() == nullptr) ? 0 : m_piles[1]->topDisque()->size()) << " "
    << ((m_piles[2]->topDisque() == nullptr) ? 0 : m_piles[2]->topDisque()->size()) << endl;
 }
+
+int PilesManager::currentTurn() const {
+  return m_turn->turn();
+}

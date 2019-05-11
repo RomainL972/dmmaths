@@ -1,36 +1,41 @@
 #include "pile.h"
 #include "disque.h"
+#include <utility>
+
+using namespace std;
 
 Pile::Pile(int index): m_index(index) {
 }
 
 bool Pile::addDisque(Disque *disque) {
-  if(!m_disques.empty() && disque->size() > m_disques.top()->size()) return false;
-  if(!m_disques.empty() && disque->size()+1 == m_disques.top()->size()) m_even = !m_even;
-  else m_even = false;
-  m_disques.push(disque);
+  bool even;
+  if(!m_disques.empty() && disque->size() > get<0>(m_disques.top())->size()) return false;
+  if(!m_disques.empty() && disque->size()+1 == get<0>(m_disques.top())->size()) even = !get<1>(m_disques.top());
+  else even = false;
+  m_disques.push(pair<Disque*, bool>(disque, even));
   disque->setParent(this);
   return true;
 }
 
 Disque* Pile::removeDisque() {
-  Disque* disque = m_disques.top();
-  int lastSize = disque->size();
+  Disque* disque = get<0>(m_disques.top());
   m_disques.pop();
-  if(m_disques.empty()) m_even = true;
-  else if(m_disques.top()->size() == lastSize-1) m_even = !m_even;
   return disque;
 }
 
 Disque* Pile::topDisque() const{
   if(m_disques.empty()) return nullptr;
-  return m_disques.top();
+  return get<0>(m_disques.top());
 }
 
 bool Pile::even() const {
-  return m_even;
+  return get<1>(m_disques.top());
 }
 
 int Pile::index() const {
   return m_index;
+}
+
+bool Pile::empty() const {
+  return m_disques.empty();
 }

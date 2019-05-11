@@ -9,7 +9,7 @@ Turn::Turn(int size) {
 
 void Turn::increment() {
   m_turns[0]++;
-  for(int i = 0; i < m_turns.size(); i++) {
+  for(long unsigned int i = 0; i < m_turns.size(); i++) {
     if(m_turns[i] > 1) {
       m_turns[i] -= 2;
       if(i+1!=m_turns.size())
@@ -21,7 +21,7 @@ void Turn::increment() {
 }
 
 int Turn::turn() const {
-  for(int i = 0; i < m_turns.size(); i++) {
+  for(long unsigned int i = 0; i < m_turns.size(); i++) {
     if(m_turns[i]) return i;
   }
   return -1;

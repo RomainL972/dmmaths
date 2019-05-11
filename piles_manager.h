@@ -17,6 +17,7 @@ class PilesManager {
     Pile* operator[](int index) const;
     Disque* disque(int size) const;
     void describe() const;
+    int currentTurn() const;
 
   private:
     std::vector<Pile*> m_piles;

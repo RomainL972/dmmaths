@@ -5,75 +5,67 @@
 #include "disque.h"
 #include "piles_manager.h"
 #include "turn.h"
+#include "logger.h"
 
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-  if(argc < 2) {
-    cout << "ERREUR FATALE DE LA MORT QUI TUE: pas d'argument" << endl;
-    return 255;
-  }
+  Logger logger("log.txt");
+  if(argc < 2)
+    logger.error("No argument", true);
   char *p;
   int disques;
 
   long conv = strtol(argv[1], &p, 10);
 
-  if (*p != '\0' || conv > INT_MAX) {
-    cout << "ERREUR PAS TROP FATALE MAIS QUAND MEME: pas un nombre" << endl;
-    return 255;
-  }
+  if (*p != '\0' || conv > INT_MAX)
+    logger.error("Argument isn't a good number", true);
   disques = conv;
 
   Turn turns(disques);
   PilesManager manager(disques, &turns);
+  logger.setPilesManager(&manager);
 
-  Pile* target = manager[2];
-  Pile* from = manager[0];
   Disque *first = manager[0]->topDisque();
   int turn;
-  bool goingto2 = false;
   Pile* dest;
+  int target, from;
   bool last = false;
   do {
-    manager.describe();
     turn = turns.turn();
+    logger.logState();
     if(turn+1 == disques) {
       if(last) break;
       last = true;
-      if(!manager.moveDisque(manager[0], manager[2])) exit(-1);
-      from = manager[1];
+      if(!manager.moveDisque(manager[0], manager[2])) logger.error("Couldn't move biggest disque", true);
       if(turns.turn()+1 == disques) break;
     }
     else if(turn == 0) {
-      if(goingto2) {
-        dest = manager.disque(1)->parent();
-        goingto2 = false;
+      from = first->parent()->index();
+      target = 2-from;
+      if(manager[(from + 1) % PILES]->empty() &&
+        manager[(from + 2) % PILES]->empty());
+      else if(!manager[(from + 1) % PILES]->empty() &&
+        (manager[(from + 2) % PILES]->empty() ||
+          manager[(from + 1) % PILES]->topDisque()->size() <
+          manager[(from + 2) % PILES]->topDisque()->size()))
+            target = 1;
+      else target = 2;
+
+      if(first->parent()->even()) {
+        target = target % 2 + 1;
       }
-      else {
-        if(!first->parent()->even() && first->parent() != target) dest = target;
-        else if(
-          (!first->parent()->even() && first->parent() == target && (first->parent()->index() + 1) % PILES != from->index()) ||
-          (first->parent()->even() && (first->parent()->index() + 1) % PILES != target->index()))
-          dest = manager[(first->parent()->index() + 1) % PILES];
-        else dest = manager[(first->parent()->index() + 2) % PILES];
-        goingto2 = true;
-      }
-      manager.moveDisque(first->parent(), dest);
+      dest = manager[(from + target) % PILES];
+      if(!manager.moveDisque(first->parent(), dest))
+        logger.error("Couldn't move first disque", true);
     }
     else {
       if(!manager.moveDisque(manager.disque(turn)->parent(), manager[(manager.disque(turn)->parent()->index()+1)%PILES]))
-        manager.moveDisque(manager.disque(turn)->parent(), manager[(manager.disque(turn)->parent()->index()+2)%PILES]);
+        if(!manager.moveDisque(manager.disque(turn)->parent(), manager[(manager.disque(turn)->parent()->index()+2)%PILES]))
+          logger.error("Couldn't move disque anywhere", true);
     }
-    cout << endl;
   } while(1);
-  cout << endl;
-  manager.describe();
 
-  return manager.moves();
+  logger.success(manager.moves());
+  return EXIT_SUCCESS;
 }
-
-/*
-Regle step 1?
-  Va vers plus grand hors de from
-  Si deja va vers plus petit
-*/
