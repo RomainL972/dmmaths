@@ -32,7 +32,7 @@ There are three programs.
 * Tester runs DM with every number of disques possible and checks the results, you can start it with
 
 ```
-./tester
+./Tester
 ```
 
 * display.py runs DM and displays the result with animated rectangles thanks to
