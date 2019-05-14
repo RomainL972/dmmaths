@@ -2,11 +2,12 @@
 #include "pile.h"
 #include "disque.h"
 #include "turn.h"
+#include "logger.h"
 #include <iostream>
 
 using namespace std;
 
-PilesManager::PilesManager(int disques, Turn* turn): m_count(0), m_turn(turn) {
+PilesManager::PilesManager(int disques, Turn* turn, Logger* logger): m_count(0), m_turn(turn), m_logger(logger) {
   for(int i = 0; i < PILES; i++) {
     m_piles.push_back(new Pile(i));
   }
@@ -24,6 +25,7 @@ bool PilesManager::moveDisque(Pile* from, Pile* to) {
     from->removeDisque();
     m_count++;
     m_turn->increment();
+    m_logger->logMove(from->index(), to->index());
     return true;
   }
   return false;

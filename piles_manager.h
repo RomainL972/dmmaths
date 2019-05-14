@@ -8,10 +8,11 @@
 class Pile;
 class Disque;
 class Turn;
+class Logger;
 
 class PilesManager {
   public:
-    PilesManager(int disques, Turn* turn);
+    PilesManager(int disques, Turn* turn, Logger* logger);
     bool moveDisque(Pile* from, Pile* to);
     int moves() const;
     Pile* operator[](int index) const;
@@ -24,6 +25,7 @@ class PilesManager {
     int m_count;
     Turn *m_turn;
     std::vector<Disque*> m_disques;
+    Logger* m_logger;
 };
 
 #endif

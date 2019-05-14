@@ -10,7 +10,8 @@ int main(int argc, char const *argv[]) {
   int last=0;
   int current;
   stringstream ss;
-  for(int i = 1; i < 30; i++) {
+  int i = 1;
+  while (1){
     ss << "./DM " << to_string(i);
     system(ss.str().c_str());
     file.open("log.txt");
@@ -20,10 +21,11 @@ int main(int argc, char const *argv[]) {
     cout << to_string(i) << " : " << current << endl;
 
     if(current != last*2+1) {
-      cout << "FATAL ERROR THAT YOU PROBABLY ALREADY KNOW OF" << endl;
+      cout << "[FATAL ERROR] Incorrect result" << endl;
       return -1;
     }
     last = current;
+    i++;
   }
   return 0;
 }

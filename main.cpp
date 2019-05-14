@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]) {
   disques = conv;
 
   Turn turns(disques);
-  PilesManager manager(disques, &turns);
+  PilesManager manager(disques, &turns, &logger);
   logger.setPilesManager(&manager);
 
   Disque *first = manager[0]->topDisque();
