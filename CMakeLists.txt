@@ -5,3 +5,5 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Ofast")
 
 add_executable(DM main.cpp pile.cpp disque.cpp piles_manager.cpp turn.cpp logger.cpp)
 add_executable(Tester tester.cpp)
+
+target_link_libraries(DM pthread)

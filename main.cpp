@@ -10,7 +10,9 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-  Logger logger("log.txt");
+  bool logMoves = false;
+  if(argc >= 3) logMoves = true;
+  Logger logger(logMoves);
   if(argc < 2)
     logger.error("No argument", true);
   char *p;
@@ -24,7 +26,6 @@ int main(int argc, char const *argv[]) {
 
   Turn turns(disques);
   PilesManager manager(disques, &turns, &logger);
-  logger.setPilesManager(&manager);
 
   Disque *first = manager[0]->topDisque();
   int turn;
@@ -33,7 +34,6 @@ int main(int argc, char const *argv[]) {
   bool last = false;
   do {
     turn = turns.turn();
-    logger.logState();
     if(turn+1 == disques) {
       if(last) break;
       last = true;

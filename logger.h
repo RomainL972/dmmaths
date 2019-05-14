@@ -3,22 +3,22 @@
 
 #include <string>
 #include <fstream>
+#include <thread>
+#include <vector>
 
 class PilesManager;
 
 class Logger {
   public:
-    Logger(std::string filename);
+    Logger(bool logMoves);
     ~Logger();
     void error(std::string message, bool fatal=true);
-    void logState(std::string message="");
     void logMove(int from, int to);
-    void setPilesManager(PilesManager *manager);
     void success(int moves);
   private:
-    PilesManager *m_manager;
     std::ofstream m_logFile;
     std::ofstream m_movesFile;
+    bool m_logMoves;
 };
 
 /*

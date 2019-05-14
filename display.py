@@ -69,7 +69,7 @@ for number in range(disques,0,-1):
     drawRectangle(xSize, yDefaultSize)
     piles[0].append(number)
 
-os.system(args.dm_path + " " + str(disques))
+os.system(args.dm_path + " " + str(disques) + " 1")
 movesFile = open("moves.txt", "r")
 
 for line in movesFile.readlines():
