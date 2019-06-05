@@ -17,7 +17,7 @@ class Pile {
     bool empty() const;
 
   private:
-    std::stack<std::pair<Disque*, bool>> m_disques;
+    std::stack<std::pair<Disque*, bool> > m_disques;
     int m_index;
 };
 
