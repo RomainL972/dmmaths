@@ -10,7 +10,7 @@ int main(int argc, char const *argv[]) {
   int current;
   int i = 1;
   while (1){
-    system(string("./DM").append(to_string(i)).c_str());
+    system(string("./DM ").append(to_string(i)).c_str());
     file.open("log.txt");
     file >> current;
     file.close();
