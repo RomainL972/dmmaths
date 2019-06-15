@@ -19,7 +19,7 @@ class Logger {
     ~Logger();
     void error(std::string message, bool fatal=true);
     void logMove(int from, int to);
-    void success(int moves);
+    void success(unsigned long long moves);
     void setMessagesLogType(LogType type, std::string messagesFileName="log.txt");
     LogType getMessagesLogType() const;
     void setMovesLogType(LogType type, std::string movesFileName="moves.txt");
@@ -30,11 +30,5 @@ class Logger {
     LogType m_movesLogType;
     std::ofstream m_movesLogFile;
 };
-
-/*
-Log file format:
-comma separated values
-
-*/
 
 #endif

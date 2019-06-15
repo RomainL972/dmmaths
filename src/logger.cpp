@@ -61,7 +61,7 @@ void Logger::logMove(int from, int to) {
   }
 }
 
-void Logger::success(int moves) {
+void Logger::success(unsigned long long moves) {
   switch(m_messagesLogType) {
     case File:
       m_messagesLogFile << "Finished in " << moves << " moves" << endl;
