@@ -9,8 +9,8 @@ Pile::Pile(int index): m_index(index) {
 
 bool Pile::addDisque(Disque *disque) {
   bool even;
-  if(!m_disques.empty() && disque->size() > get<0>(m_disques.top())->size()) return false;
-  if(!m_disques.empty() && disque->size()+1 == get<0>(m_disques.top())->size()) even = !get<1>(m_disques.top());
+  if(!empty() && disque->size() > get<0>(m_disques.top())->size()) return false;
+  if(!empty() && disque->size()+1 == topDisque()->size()) even = !isEven();
   else even = false;
   m_disques.push(pair<Disque*, bool>(disque, even));
   disque->setParent(this);
@@ -28,7 +28,8 @@ Disque* Pile::topDisque() const{
   return get<0>(m_disques.top());
 }
 
-bool Pile::even() const {
+bool Pile::isEven() const {
+  if(m_disques.empty()) return false;
   return get<1>(m_disques.top());
 }
 

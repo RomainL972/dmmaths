@@ -12,7 +12,7 @@ class Pile {
     bool addDisque(Disque *disque);
     Disque* removeDisque();
     Disque* topDisque() const;
-    bool even() const;
+    bool isEven() const;
     int index() const;
     bool empty() const;
 

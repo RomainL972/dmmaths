@@ -5,9 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- A DMMaths class that manages the logic (old main.cpp)
+- more getters and setters
+- A LogType enum in Logger
+
 ### Changed
 - source files are now in the src subdirectory
 - header files are now in the include subdirectory
+- Turn renamed to TurnManager
+- PilesManager doesn't manager turns and counter anymore because DMMaths does
+- Logging can be to stdout, file or none. Tester doesn't use it yet so it's broken for now
 
 ## [0.3.1] - 2019-06-14
 ### Added

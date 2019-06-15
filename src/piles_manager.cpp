@@ -1,38 +1,36 @@
 #include "piles_manager.h"
 #include "pile.h"
 #include "disque.h"
-#include "turn.h"
-#include "logger.h"
+#include "dmmaths.h"
 #include <iostream>
 
 using namespace std;
 
-PilesManager::PilesManager(int disques, Turn* turn, Logger* logger): m_count(0), m_turn(turn), m_logger(logger) {
+PilesManager::PilesManager(DMMaths *parent): m_parent(parent) {
   for(int i = 0; i < PILES; i++) {
     m_piles.push_back(new Pile(i));
   }
+}
+
+bool PilesManager::prepare() {
   Disque *disque;
-  for(int i = disques; i > 0; i--) {
+  if(!getParent()->getDisques())
+    return false;
+  for(int i = getParent()->getDisques(); i > 0; i--) {
     disque = new Disque(i, m_piles[0]);
     m_piles[0]->addDisque(disque);
     m_disques.insert(m_disques.begin(), disque);
   }
+  return true;
 }
 
 bool PilesManager::moveDisque(Pile* from, Pile* to) {
   Disque* disque = from->topDisque();
   if(to->addDisque(disque)){
     from->removeDisque();
-    m_count++;
-    m_turn->increment();
-    m_logger->logMove(from->index(), to->index());
     return true;
   }
   return false;
-}
-
-int PilesManager::moves() const {
-  return m_count;
 }
 
 Pile* PilesManager::operator[](int index) const {
@@ -44,12 +42,10 @@ Disque* PilesManager::disque(int size) const {
   return m_disques[size];
 }
 
-void PilesManager::describe() const {
-  cout << ((m_piles[0]->topDisque() == nullptr) ? 0 : m_piles[0]->topDisque()->size()) << " "
-   << ((m_piles[1]->topDisque() == nullptr) ? 0 : m_piles[1]->topDisque()->size()) << " "
-   << ((m_piles[2]->topDisque() == nullptr) ? 0 : m_piles[2]->topDisque()->size()) << endl;
+void PilesManager::setParent(DMMaths *parent) {
+  m_parent = parent;
 }
 
-int PilesManager::currentTurn() const {
-  return m_turn->turn();
+DMMaths* PilesManager::getParent() const {
+  return m_parent;
 }

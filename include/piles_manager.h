@@ -7,25 +7,22 @@
 
 class Pile;
 class Disque;
-class Turn;
-class Logger;
+class DMMaths;
 
 class PilesManager {
   public:
-    PilesManager(int disques, Turn* turn, Logger* logger);
+    PilesManager(DMMaths *parent);
+    bool prepare();
     bool moveDisque(Pile* from, Pile* to);
-    int moves() const;
     Pile* operator[](int index) const;
     Disque* disque(int size) const;
-    void describe() const;
-    int currentTurn() const;
+    void setParent(DMMaths *parent);
+    DMMaths* getParent() const;
 
   private:
+    DMMaths* m_parent;
     std::vector<Pile*> m_piles;
-    int m_count;
-    Turn *m_turn;
     std::vector<Disque*> m_disques;
-    Logger* m_logger;
 };
 
 #endif
