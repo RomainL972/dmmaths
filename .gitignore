@@ -10,3 +10,4 @@ CTestTestfile.cmake
 build/
 log.txt
 moves.txt
+__pycache__/
